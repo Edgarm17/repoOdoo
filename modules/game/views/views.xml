@@ -1,19 +1,41 @@
 <odoo>
   <data>
     <!-- explicit list view definition -->
-    <!--
-    <record model="ir.ui.view" id="game.list">
-      <field name="name">game list</field>
-      <field name="model">game.game</field>
+
+    <record model="ir.ui.view" id="game.lista_jugadores">
+      <field name="name">lista jugadores</field>
+      <field name="model">game.jugador</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
-          <field name="value"/>
-          <field name="value2"/>
+          <field name="imagen" widget="image"/>
+          <field name="nombre"/>
+          <field name="raza"/>
+          <field name="bando"/>
         </tree>
       </field>
     </record>
-    -->
+
+    <record model="ir.ui.view" id="game.form_jugador">
+      <field name="name">formulario jugadores</field>
+      <field name="model">game.jugador</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group string="datos Jugador">
+                <field name="imagen" widget="image" style="width:50px;"/>
+                <field name="nombre"/>
+                <field name="raza"/>
+                <field name="bando"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
 
     <!-- actions opening views on models -->
 
@@ -23,38 +45,29 @@
       <field name="view_mode">tree,form</field>
     </record>
 
-
-    <!-- server action to the one above -->
-
-    <record model="ir.actions.server" id="game.action_server">
-      <field name="name">game server</field>
-      <field name="model_id" ref="model_game_game"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": self._name,
-        }
-      </field>
+    <record model="ir.actions.act_window" id="game.jugador_action_window">
+      <field name="name">Jugador</field>
+      <field name="res_model">game.jugador</field>
+      <field name="view_mode">tree,form</field>
     </record>
 
 
     <!-- Top menu item -->
 
-    <menuitem name="game" id="game.menu_root"/>
+    <menuitem name="Lord Of The Rings Game" id="game.menu_root"/>
 
     <!-- menu categories -->
 
-    <menuitem name="game" id="game.menu_1" parent="game.menu_root"/>
-    <menuitem name="Menu 2" id="game.menu_2" parent="game.menu_root"/>
+    <menuitem name="Admin" id="game.menu_1" parent="game.menu_root"/>
+
 
     <!-- actions -->
 
-    <menuitem name="List" id="game.menu_1_list" parent="game.menu_1"
+    <menuitem name="Jugadores" id="game.menu_jugador" parent="game.menu_1"
+              action="game.jugador_action_window"/>
+    <menuitem name="Recursos" id="game.menu_1_recursos" parent="game.menu_1"
               action="game.action_window"/>
-    <menuitem name="Server to list" id="game" parent="game.menu_2"
-              action="game.action_server"/>
+
 
   </data>
 </odoo>
