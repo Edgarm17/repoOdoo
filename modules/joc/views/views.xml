@@ -15,6 +15,17 @@
       </field>
     </record>
 
+    <record model="ir.ui.view" id="joc.lista_materiales">
+      <field name="name">lista materiales</field>
+      <field name="model">joc.materiales</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="nombre"/>
+          <field name="cantidad"/>
+        </tree>
+      </field>
+    </record>
+
     <record model="ir.ui.view" id="joc.form_jugador">
       <field name="name">formulario jugadores</field>
       <field name="model">joc.jugador</field>
@@ -51,6 +62,11 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <record model="ir.actions.act_window" id="joc.materiales_action_window">
+      <field name="name">Materiales</field>
+      <field name="res_model">joc.materiales</field>
+      <field name="view_mode">tree,form</field>
+    </record>
 
     <!-- Top menu item -->
 
@@ -65,8 +81,8 @@
 
     <menuitem name="Jugadores" id="joc.menu_jugador" parent="joc.menu_1"
               action="joc.jugador_action_window"/>
-    <menuitem name="Recursos" id="joc.menu_1_recursos" parent="joc.menu_1"
-              action="joc.action_window"/>
+    <menuitem name="Materiales" id="joc.menu_1_materiales" parent="joc.menu_1"
+              action="joc.materiales_action_window"/>
 
 
   </data>

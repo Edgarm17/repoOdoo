@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_joc_joc,joc.joc,model_joc_joc,,1,1,1,1
 access_joc_jugador,joc.jugador,model_joc_jugador,,1,1,1,1
+access_joc_materiales,joc.materiales,model_joc_materiales,,1,1,1,1
