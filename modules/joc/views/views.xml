@@ -1,0 +1,73 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="joc.lista_jugadores">
+      <field name="name">lista jugadores</field>
+      <field name="model">joc.jugador</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="imagen" widget="image"/>
+          <field name="nombre"/>
+          <field name="raza"/>
+          <field name="bando"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.form_jugador">
+      <field name="name">formulario jugadores</field>
+      <field name="model">joc.jugador</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <group string="datos Jugador">
+                <field name="imagen" widget="image" style="width:50px;"/>
+                <field name="nombre"/>
+                <field name="raza"/>
+                <field name="bando"/>
+              </group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="joc.action_window">
+      <field name="name">joc</field>
+      <field name="res_model">joc.joc</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.jugador_action_window">
+      <field name="name">Jugador</field>
+      <field name="res_model">joc.jugador</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Lord Of The Rings Game" id="joc.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Admin" id="joc.menu_1" parent="joc.menu_root"/>
+
+
+    <!-- actions -->
+
+    <menuitem name="Jugadores" id="joc.menu_jugador" parent="joc.menu_1"
+              action="joc.jugador_action_window"/>
+    <menuitem name="Recursos" id="joc.menu_1_recursos" parent="joc.menu_1"
+              action="joc.action_window"/>
+
+
+  </data>
+</odoo>
