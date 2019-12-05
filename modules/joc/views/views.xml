@@ -7,24 +7,14 @@
       <field name="model">joc.jugador</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="imagen" widget="image"/>
-          <field name="nombre"/>
+          <field name="image" widget="image"/>
+          <field name="name"/>
           <field name="raza"/>
           <field name="bando"/>
         </tree>
       </field>
     </record>
 
-    <record model="ir.ui.view" id="joc.lista_materiales">
-      <field name="name">lista materiales</field>
-      <field name="model">joc.materiales</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="nombre"/>
-          <field name="cantidad"/>
-        </tree>
-      </field>
-    </record>
 
     <record model="ir.ui.view" id="joc.form_jugador">
       <field name="name">formulario jugadores</field>
@@ -34,8 +24,8 @@
           <sheet>
             <group>
               <group string="datos Jugador">
-                <field name="imagen" widget="image" style="width:50px;"/>
-                <field name="nombre"/>
+                <field name="image" widget="image" style="width:50px;"/>
+                <field name="name"/>
                 <field name="raza"/>
                 <field name="bando"/>
               </group>
@@ -45,8 +35,77 @@
       </field>
     </record>
 
+    <record model="ir.actions.act_window" id="joc.jugador_action_window">
+      <field name="name">Jugador</field>
+      <field name="res_model">joc.jugador</field>
+      <field name="view_mode">tree,form</field>
+    </record>
 
+    <!-- Vista, formulario y action de materiales -->
 
+    <record model="ir.ui.view" id="joc.lista_materiales">
+      <field name="name">Lista materiales</field>
+      <field name="model">joc.materiales</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="material"/>
+          <field name="cantidad"/>
+          <field name="jugador"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.form_materiales">
+      <field name="name">Formulario materiales</field>
+      <field name="model">joc.materiales</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="material"/>
+              <field name="cantidad"/>
+              <field name="jugador"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.materiales_action_window">
+      <field name="name">Materiales</field>
+      <field name="res_model">joc.materiales</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Vista, formulario y action de material -->
+
+    <record model="ir.ui.view" id="joc.lista_material">
+      <field name="name">Lista material</field>
+      <field name="model">joc.material</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="image" widget="image"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.form_material">
+      <field name="name">Formulario material</field>
+      <field name="model">joc.material</field>
+      <field name="arch" type="xml">
+        <form>
+              <field name="name"/>
+              <field name="image" widget="image" alt="fgy"/>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.material_action_window">
+      <field name="name">Material</field>
+      <field name="res_model">joc.material</field>
+      <field name="view_mode">tree,form</field>
+    </record>
 
     <!-- actions opening views on models -->
 
@@ -56,17 +115,9 @@
       <field name="view_mode">tree,form</field>
     </record>
 
-    <record model="ir.actions.act_window" id="joc.jugador_action_window">
-      <field name="name">Jugador</field>
-      <field name="res_model">joc.jugador</field>
-      <field name="view_mode">tree,form</field>
-    </record>
 
-    <record model="ir.actions.act_window" id="joc.materiales_action_window">
-      <field name="name">Materiales</field>
-      <field name="res_model">joc.materiales</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+
+
 
     <!-- Top menu item -->
 
@@ -81,8 +132,10 @@
 
     <menuitem name="Jugadores" id="joc.menu_jugador" parent="joc.menu_1"
               action="joc.jugador_action_window"/>
-    <menuitem name="Materiales" id="joc.menu_1_materiales" parent="joc.menu_1"
+    <menuitem name="Materiales" id="joc.menu_materiales" parent="joc.menu_1"
               action="joc.materiales_action_window"/>
+    <menuitem name="Material" id="joc.menu_material" parent="joc.menu_1"
+              action="joc.material_action_window"/>
 
 
   </data>
