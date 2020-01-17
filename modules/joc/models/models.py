@@ -13,7 +13,6 @@ class jugador(models.Model): #Clientes de odoo
     name = fields.Char()
     image = fields.Binary()
     raza = fields.Selection([('1', 'Hombres'), ('2', 'Elfos'), ('3', 'Enanos'), ('4', 'Orcos')])
-    bando = fields.Selection([('1', 'Luz'), ('2', 'Oscuridad')])
     materiales = fields.One2many('joc.materiales', 'jugador')
 
 class materiales(models.Model):#Materiales de un jugador
@@ -26,6 +25,8 @@ class material(models.Model):#Material
     _name = 'joc.material'
     name = fields.Char()
     image = fields.Binary()
+
+
 
 
 

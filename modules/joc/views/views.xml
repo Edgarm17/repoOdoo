@@ -10,7 +10,6 @@
           <field name="image" widget="image"/>
           <field name="name"/>
           <field name="raza"/>
-          <field name="bando"/>
         </tree>
       </field>
     </record>
@@ -27,7 +26,6 @@
                 <field name="image" widget="image" style="width:50px;"/>
                 <field name="name"/>
                 <field name="raza"/>
-                <field name="bando"/>
               </group>
             </group>
           </sheet>

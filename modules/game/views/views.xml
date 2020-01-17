@@ -7,7 +7,12 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
-                    <field name="fortresses"/>
+                    <field name="fortresses" widget="many2many_tags"/>
+                    <field name="weapons_points"/>
+                    <field name="stuff_points"/>
+                    <field name="food_points"/>
+                    <field name="gold"/>
+                    <field name="max_fortresses"/>
                 </tree>
             </field>
         </record>
@@ -27,6 +32,7 @@
                             <group string="Levels">
                                 <field name="weapons_points"/>
                                 <field name="stuff_points"/>
+                                <field name="food_points"/>
                                 <field name="gold"/>
                                 <field name="max_fortresses"/>
                             </group><!-- Candidat a widget-->
@@ -83,13 +89,23 @@
                             </page>
                             <page string="Characters">
                                 <field name="characters" mode="kanban"/>      <!-- Candidat a widget-->
+                                <separator string="Unemployeds"></separator>
+                                <field name="unemployeds">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="fortress"/>
+                                        <field name="science"/><field name="construction"/>
+                                        <field name="mining"/><field name="war"/><field name="age"/>
+                                        <field name="health"/><field name="resource"/>
+                                    </tree>
+                                </field>
                             </page>
                         </notebook>
-                   <footer>
-                         <button name="update_resources" type="object" string="Force update" class="oe_highlight"/>
+                        <footer>
+                            <button name="update_resources" type="object" string="Force update" class="oe_highlight"/>
 
-                         <button name="reset_player" type="object" string="Reset" class="oe_highlight"/>
-                    </footer>
+                            <button name="reset_player" type="object" string="Reset" class="oe_highlight"/>
+                        </footer>
                     </sheet>
 
                 </form>
@@ -160,7 +176,7 @@
             <field name="arch" type="xml">
                 <tree decoration-danger="inactive==True">
                     <field name="name"/>
-                    <field name="productions"/>
+                    <field name="produccions"/>
                     <field name="fortress"/>
                     <field name="template"/>
                     <field name="level"/>
@@ -190,6 +206,7 @@
                                 <field name="fortress"/>
                                 <field name="level"/>
                             </group>
+
                         </group>
                         <notebook>
                             <page string="Template">
@@ -200,7 +217,11 @@
                             </page>
                             <page string="Construction" attrs="{'invisible':[('template', '==', False)]}">
                                 <group>
-                                    <field name="productions"/>
+                                    <field name="produccions"/>
+                                    <field name="custom_production"/>
+                                    <field name="raws_stored"/>
+                                    <field name="production_spend"/>
+
                                     <field name="costs"/>
                                     <field name="durations">
                                         <tree>
@@ -216,9 +237,12 @@
 
                             <page string="Construction child" attrs="{'invisible':[('template', '!=', False)]}">
                                 <group>
-                                    <field name="current_productions"/>
+                                    <field name="produccions"/>
+                                    <field name="custom_production"/>
+                                    <field name="raws_stored"/>
+                                    <field name="production_spend"/>
 
-                                    <field name="productions_child"/>
+
                                     <field name="costs_child"/>
                                     <field name="durations_child">
                                         <tree>
@@ -229,16 +253,26 @@
                                             <field name="max_characters"/>
                                         </tree>
                                     </field>
+
                                 </group>
                             </page>
                             <page string="Progress">
                                 <group>
-                                    <field name="minutes_left"/>
-                                    <field name="const_percent" widget="progressbar"/>
-                                    <field name="knowledge"/>
-                                    <field name="characters"/>
-                                    <field name="researches"/>
+                                    <field name="minutes_left" attrs="{'invisible':[('const_percent', '==', 100)]}"/>
+                                    <field name="const_percent" widget="progressbar" attrs="{'invisible':[('const_percent', '==', 100)]}"/>
+                                    <field name="characters" context="{'default_resource':active_id,'default_fortress':fortress}"/>
                                     <field name="inactive"/>
+                                </group>
+                            </page>
+                            <page string="Knowledge">
+                                <group>
+                                    <field name="knowledge"/>
+                                    <field name="researches" attrs="{'invisible':[('knowledge', '!=', '2')]}" context="{'default_resource':active_id}"/>
+                                    <button name="new_research" type="object" string="Research in Weapons" context="{'type':'1'}"></button>
+                                    <button name="new_research" type="object" string="Research in Chemistry" context="{'type':'2'}"></button>
+                                    <button name="new_research" type="object" string="Research in Nutrition" context="{'type':'3'}"></button>
+                                    <button name="new_research" type="object" string="Research in Medicine" context="{'type':'4'}"></button>
+                                    <button name="new_research" type="object" string="Research in Energy" context="{'type':'5'}"></button>
                                 </group>
                             </page>
                         </notebook>
@@ -254,7 +288,7 @@
                 <kanban>
                     <field name="image_small"/>  <field name="id"/>
                     <field name="name"/>
-                    <field name="productions"/>
+                    <field name="produccions"/>
                     <field name="fortress"/>
                     <field name="template"/>  <field name="color"/>
                     <field name="level"/>
@@ -268,19 +302,21 @@
                         <t t-name="kanban-box">
                             <div  t-attf-class="
                             oe_kanban_card
-                            oe_kanban_global_click
+
                             o_kanban_record_has_image_fill
                             #{kanban_color(record.color.raw_value)}" >
                                 <div class="oe_game_kanban_div_image">
                                     <img class="oe_kanban_image"
                                          t-att-alt="record.name.value"
                                          t-att-src="kanban_image('game.resource', 'image_small', record.id.value)"/>
-                               <button name="level_up" type="object" string="Level"
-                                              class="oe_game_kanban_button">Level UP</button>
+                                    <button name="level_up" type="object" string="Level"
+                                            class="oe_game_kanban_button">Level UP</button>
+                                    <button name="%(game.launch_add_raws_wizard)d" type="action" string="Level"
+                                            class="oe_game_kanban_button">Add raws</button>
                                 </div>
 
                                 <div class="oe_kanban_details">
-                                    <a type="open"> <h4><field name="name"/></h4>  </a>
+                                    <a type="edit"> <h4><field name="name"/></h4>  </a>
                                     <ul>
                                         <li>Level: <field name="level"/></li>
                                         <li>Fortress: <field name="fortress"/></li>
@@ -312,7 +348,7 @@
             <field name="name">raw list</field>
             <field name="model">game.raw</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree >
                     <field name="name"/>
                     <field name="public_hash"/>
                     <field name="hidden_hash"/>
@@ -324,6 +360,8 @@
                     <field name="tecnologia"/>
                     <field name="medicina"/>
                     <field name="energia"/>
+                    <field name="production_cost"/>
+
                 </tree>
             </field>
         </record>
@@ -346,6 +384,8 @@
                             <field name="tecnologia"/>
                             <field name="medicina"/>
                             <field name="energia"/>
+                            <field name="production_cost"/>
+
                         </group>
                     </sheet>
                 </form>
@@ -379,6 +419,7 @@
                     <field name="energy"/>
                     <field name="minutes_left"/>
                     <field name="duration"/>
+                    <button type="object" icon="fa-trash-o" string="" name="unlink"/>
                 </tree>
             </field>
         </record>
@@ -393,8 +434,7 @@
                             <field name="image" widget="image"/>
                             <field name="name"/>
                             <field name="hash"/>
-                            <field name="character"/>
-
+                            <field name="character" domain="[('fortress.player','=',player)]"/>
                             <field name="player"/>
                             <field name="type"/>
                             <field name="melee"/>
