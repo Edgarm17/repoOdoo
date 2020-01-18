@@ -26,6 +26,19 @@ class material(models.Model):#Material
     name = fields.Char()
     image = fields.Binary()
 
+class atacantes(models.Model): #Atacantes
+    _name = 'joc.atacantes'
+    atacante = fields.Many2one('joc.atacante')
+    cantidad = fields.Float()
+    jugador = fields.Many2one('joc.jugador')
+
+class atacante(models.Model): #Atacante
+    _name = 'joc.atacante'
+    name = fields.Char()
+    image = fields.Binary()
+    ataque = fields.Float()
+    vida = fields.Float()
+    coste = fields.Float()
 
 
 

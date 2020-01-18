@@ -3,3 +3,5 @@ access_joc_joc,joc.joc,model_joc_joc,,1,1,1,1
 access_joc_jugador,joc.jugador,model_joc_jugador,,1,1,1,1
 access_joc_materiales,joc.materiales,model_joc_materiales,,1,1,1,1
 access_joc_material,joc.material,model_joc_material,,1,1,1,1
+access_joc_atacantes,joc.atacantes,model_joc_atacantes,,1,1,1,1
+acces_joc_atacante,joc.atacante,model_joc_atacante,,1,1,1,1

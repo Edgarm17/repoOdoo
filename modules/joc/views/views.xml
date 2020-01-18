@@ -105,6 +105,82 @@
       <field name="view_mode">tree,form</field>
     </record>
 
+    <!-- Vista, formulario y action de atacantes -->
+
+    <record model="ir.ui.view" id="joc.lista_atacantes">
+      <field name="name">Lista atacantes</field>
+      <field name="model">joc.atacantes</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="atacante"/>
+          <field name="cantidad"/>
+          <field name="jugador"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.form_atacantes">
+      <field name="name">Formulario atacantes</field>
+      <field name="model">joc.atacantes</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="atacante"/>
+              <field name="cantidad"/>
+              <field name="jugador"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.atacantes_action_window">
+      <field name="name">Atacantes</field>
+      <field name="res_model">joc.atacantes</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Vista, formulario y action de atacante -->
+
+    <record model="ir.ui.view" id="joc.lista_atacante">
+      <field name="name">Lista atacante</field>
+      <field name="model">joc.atacante</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="image" widget="image"/>
+          <field name="ataque"/>
+          <field name="vida"/>
+          <field name="coste"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="joc.form_atacante">
+      <field name="name">Formulario atacante</field>
+      <field name="model">joc.atacante</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="image" widget="image" alt="fgy"/>
+              <field name="ataque"/>
+              <field name="vida"/>
+              <field name="coste"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="joc.atacante_action_window">
+      <field name="name">Atacante</field>
+      <field name="res_model">joc.atacante</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
     <!-- actions opening views on models -->
 
     <record model="ir.actions.act_window" id="joc.action_window">
@@ -134,6 +210,10 @@
               action="joc.materiales_action_window"/>
     <menuitem name="Material" id="joc.menu_material" parent="joc.menu_1"
               action="joc.material_action_window"/>
+    <menuitem name="Atacantes" id="joc.menu_atacantes" parent="joc.menu_1"
+              action="joc.atacantes_action_window"/>
+    <menuitem name="Atacante" id="joc.menu_atacante" parent="joc.menu_1"
+              action="joc.atacante_action_window"/>
 
 
   </data>
