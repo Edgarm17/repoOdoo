@@ -12,38 +12,85 @@ class jugador(models.Model): #Clientes de odoo
     _name = 'joc.jugador'
     name = fields.Char()
     image = fields.Binary()
-    raza = fields.Selection([('1', 'Hombres'), ('2', 'Elfos'), ('3', 'Enanos'), ('4', 'Orcos')])
-    materiales = fields.One2many('joc.materiales', 'jugador')
+    atac = fields.Float()
+    defensa = fields.Float()
+    gold = fields.Float()
+    nivell = fields.Float()
 
-class materiales(models.Model):#Materiales de un jugador
-    _name = 'joc.materiales'
+    #CLAUS ALIENES
+
+    materials = fields.One2many('joc.materials', 'jugador')
+    atacants = fields.One2many('joc.atacants','jugador')
+    defenses = fields.One2many('joc.defenses','jugador')
+    mines = fields.One2many('joc.mines','jugador')
+    event = fields.Many2many('joc.event','jugador')
+
+class materials(models.Model):
+    _name = 'joc.materials'
+    cantitat = fields.Float()
+
+    #CLAUS ALIENES
+
     material = fields.Many2one('joc.material')
-    cantidad = fields.Float()
     jugador = fields.Many2one('joc.jugador')
 
-class material(models.Model):#Material
+class material(models.Model):
     _name = 'joc.material'
     name = fields.Char()
     image = fields.Binary()
 
-class atacantes(models.Model): #Atacantes
-    _name = 'joc.atacantes'
-    atacante = fields.Many2one('joc.atacante')
-    cantidad = fields.Float()
+class atacants(models.Model):
+    _name = 'joc.atacants'
+    cantitat = fields.Float()
+
+    #CLAUS ALIENES
+
+    atacant = fields.Many2one('joc.atacant')
     jugador = fields.Many2one('joc.jugador')
 
-class atacante(models.Model): #Atacante
-    _name = 'joc.atacante'
+class atacant(models.Model):
+    _name = 'joc.atacant'
     name = fields.Char()
     image = fields.Binary()
-    ataque = fields.Float()
+    atac = fields.Float()
     vida = fields.Float()
-    coste = fields.Float()
+    cost = fields.Float()
+    nivell = fields.Float()
 
+class defenses(models.Model):
+    _name = 'joc.defenses'
+    cantitat = fields.Float()
 
+    #CLAUS ALIENES
 
+    defensa = fields.Many2one('joc.defensa')
+    jugador = fields.Many2one('joc.jugador')
 
+class defensa(models.Model):
+    _name = 'joc.defensa'
+    name = fields.Char()
+    image = fields.Binary()
+    vida = fields.Float()
+    cost = fields.Float()
+    nivell = fields.Float()
 
+class mines(models.Model):
+    _name = 'joc.mines'
+    tipus = fields.Selection([('1','Mina or'),('2','Mina pedra'),('3','Mina ferro')])
+    temps_produccio = fields.Float()
+    cost = fields.Float()
+    materials_produits = fields.Float()
 
+    #CLAUS ALIENES
 
+    jugador = fields.Many2one('joc.jugador')
 
+class event(models.Model):
+    _name = 'joc.event'
+    name = fields.Char()
+    data_inicial = fields.Date()
+    data_final = fields.Date()
+
+    #CLAU ALIENA
+
+    jugador = fields.Many2many('joc.jugador')
