@@ -29,6 +29,7 @@
         'views/templates.xml',
         'demo/materials.xml',
         'demo/atacants.xml',
+        'demo/defenses.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
