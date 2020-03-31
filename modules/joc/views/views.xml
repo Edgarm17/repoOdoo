@@ -10,6 +10,9 @@
           <field name="image" widget="image"/>
           <field name="name"/>
           <field name="gold"/>
+          <field name="ferro"/>
+          <field name="madera"/>
+          <field name="pedra"/>
           <field name="atac"/>
           <field name="defensa"/>
           <field name="nivell"/>
@@ -29,6 +32,9 @@
                 <field name="image" widget="image" style="width:50px;"/>
                 <field name="name"/>
                 <field name="gold"/>
+                <field name="ferro"/>
+                <field name="madera"/>
+                <field name="pedra"/>
                 <field name="atac"/>
                 <field name="defensa"/>
                 <field name="nivell"/>
@@ -45,71 +51,6 @@
       <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- Vista, formulari i action de materials -->
-
-    <record model="ir.ui.view" id="joc.llista_materials">
-      <field name="name">Llista materials</field>
-      <field name="model">joc.materials</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="material"/>
-          <field name="cantitat"/>
-          <field name="jugador"/>
-        </tree>
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="joc.form_materials">
-      <field name="name">Formulari materials</field>
-      <field name="model">joc.materials</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="material"/>
-              <field name="cantitat"/>
-              <field name="jugador"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="joc.materials_action_window">
-      <field name="name">Materials</field>
-      <field name="res_model">joc.materials</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-
-    <!-- Vista, Formulari y action de material -->
-
-    <record model="ir.ui.view" id="joc.lllista_material">
-      <field name="name">Llista material</field>
-      <field name="model">joc.material</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="image" widget="image"/>
-        </tree>
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="joc.form_material">
-      <field name="name">Formulari material</field>
-      <field name="model">joc.material</field>
-      <field name="arch" type="xml">
-        <form>
-              <field name="name"/>
-              <field name="image" widget="image" alt="fgy"/>
-        </form>
-      </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="joc.material_action_window">
-      <field name="name">Material</field>
-      <field name="res_model">joc.material</field>
-      <field name="view_mode">tree,form</field>
-    </record>
 
     <!-- Vista, formulari i action de atacants -->
 
@@ -337,10 +278,6 @@
 
     <menuitem name="Jugadors" id="joc.menu_jugador" parent="joc.menu_1"
               action="joc.jugador_action_window"/>
-    <menuitem name="Materials" id="joc.menu_Materials" parent="joc.menu_1"
-              action="joc.materials_action_window"/>
-    <menuitem name="Material" id="joc.menu_material" parent="joc.menu_1"
-              action="joc.material_action_window"/>
     <menuitem name="Atacants" id="joc.menu_Atacants" parent="joc.menu_1"
               action="joc.atacants_action_window"/>
     <menuitem name="Atacant" id="joc.menu_Atacant" parent="joc.menu_1"

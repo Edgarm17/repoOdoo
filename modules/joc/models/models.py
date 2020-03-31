@@ -15,29 +15,17 @@ class jugador(models.Model): #Clientes de odoo
     atac = fields.Float()
     defensa = fields.Float()
     gold = fields.Float()
+    ferro = fields.Float()
+    madera = fields.Float()
+    pedra = fields.Float()
     nivell = fields.Float()
 
     #CLAUS ALIENES
 
-    materials = fields.One2many('joc.materials', 'jugador')
     atacants = fields.One2many('joc.atacants','jugador')
     defenses = fields.One2many('joc.defenses','jugador')
     mines = fields.One2many('joc.mines','jugador')
     event = fields.Many2many('joc.event','jugador')
-
-class materials(models.Model):
-    _name = 'joc.materials'
-    cantitat = fields.Float()
-
-    #CLAUS ALIENES
-
-    material = fields.Many2one('joc.material')
-    jugador = fields.Many2one('joc.jugador')
-
-class material(models.Model):
-    _name = 'joc.material'
-    name = fields.Char()
-    image = fields.Binary()
 
 class atacants(models.Model):
     _name = 'joc.atacants'

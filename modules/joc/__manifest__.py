@@ -27,7 +27,6 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
-        'demo/materials.xml',
         'demo/atacants.xml',
         'demo/defenses.xml',
     ],
