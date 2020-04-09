@@ -1,328 +1,362 @@
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
+    <data>
+        <!-- explicit list view definition -->
 
-    <record model="ir.ui.view" id="joc.llista_jugadors">
-      <field name="name">Llista jugadors</field>
-      <field name="model">joc.jugador</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="image" widget="image"/>
-          <field name="name"/>
-          <field name="gold"/>
-          <field name="ferro"/>
-          <field name="madera"/>
-          <field name="pedra"/>
-          <field name="atac"/>
-          <field name="defensa"/>
-          <field name="nivell"/>
-        </tree>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.llista_jugadors">
+            <field name="name">Llista jugadors</field>
+            <field name="model">joc.jugador</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="image" widget="image"/>
+                    <field name="name"/>
+                    <field name="atac"/>
+                    <field name="defensa"/>
+                    <field name="nivell"/>
+                    <field name="data_creacio"/>
+                    <field name="experiencia"/>
+                </tree>
+            </field>
+        </record>
 
 
-    <record model="ir.ui.view" id="joc.form_jugador">
-      <field name="name">Formulari jugadors</field>
-      <field name="model">joc.jugador</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <group string="Dades jugador">
-                <field name="image" widget="image" style="width:50px;"/>
-                <field name="name"/>
-                <field name="gold"/>
-                <field name="ferro"/>
-                <field name="madera"/>
-                <field name="pedra"/>
-                <field name="atac"/>
-                <field name="defensa"/>
-                <field name="nivell"/>
-              </group>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.form_jugador">
+            <field name="name">Formulari jugadors</field>
+            <field name="model">joc.jugador</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Dades jugador">
+                                <field name="image" widget="image" style="width:50px;"/>
+                                <field name="name"/>
+                                <field name="atac"/>
+                                <field name="defensa"/>
+                                <field name="nivell"/>
+                            </group>
+                            <group string="Materials">
+                                <field name="gold"/>
+                                <field name="ferro"/>
+                                <field name="madera"/>
+                                <field name="pedra"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Atacants">
+                                <field name="atacantk">
+                                    <kanban>
+                                        <field name="cantitat"/>
+                                        <field name="id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_atacantsk_kanban"
+                                                     style="background-color:#990000;width:200px;padding:20px;border-radius:20px;">
+                                                    <br/>
+                                                    <div class="oe_kanban_details"
+                                                         style="background-color:#8c8c8c;padding:10px;color:white;border-radius:10px;">
+                                                        <strong class="o_kanban_details">
+                                                            <field name="atacant"/>
+                                                        </strong>
+                                                        <div class="o_kanban_tags_section"/>
+                                                        <ul>
+                                                            <li>Cantitat:
+                                                                <field name="cantitat"/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="joc.jugador_action_window">
-      <field name="name">Jugador</field>
-      <field name="res_model">joc.jugador</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.jugador_action_window">
+            <field name="name">Jugador</field>
+            <field name="res_model">joc.jugador</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
 
-    <!-- Vista, formulari i action de atacants -->
+        <!-- Vista, formulari i action de atacants -->
 
-    <record model="ir.ui.view" id="joc.llista_atacants">
-      <field name="name">Llista atacants</field>
-      <field name="model">joc.atacants</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="atacant"/>
-          <field name="cantitat"/>
-          <field name="jugador"/>
-        </tree>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.llista_atacants">
+            <field name="name">Llista atacants</field>
+            <field name="model">joc.atacants</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="atacant"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                </tree>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="joc.form_atacants">
-      <field name="name">Formulari atacants</field>
-      <field name="model">joc.atacants</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="atacant"/>
-              <field name="cantitat"/>
-              <field name="jugador"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.form_atacants">
+            <field name="name">Formulari atacants</field>
+            <field name="model">joc.atacants</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="atacant"/>
+                            <field name="cantitat"/>
+                            <field name="jugador"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="joc.atacants_action_window">
-      <field name="name">Atacants</field>
-      <field name="res_model">joc.atacants</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.atacants_action_window">
+            <field name="name">Atacants</field>
+            <field name="res_model">joc.atacants</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
-    <!-- Vista, formulari i action de atacant -->
+        <!-- Vista, formulari i action de atacant -->
 
-    <record model="ir.ui.view" id="joc.kanban_atacant">
-      <field name="name">Kanban atacant</field>
-      <field name="model">joc.atacant</field>
-      <field name="arch" type="xml">
-        <kanban>
-          <field name="name"/>
-          <field name="id"/>
-          <field name="image" widget="image"/>
-          <field name="atac"/>
-          <field name="vida"/>
-          <field name="cost"/>
-          <field name="nivell"/>
-          <templates>
-            <t t-name="kanban-box">
-              <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_atacant_kanban"
-                   style="background-color:#990000;
+        <record model="ir.ui.view" id="joc.kanban_atacant">
+            <field name="name">Kanban atacant</field>
+            <field name="model">joc.atacant</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="id"/>
+                    <field name="image" widget="image"/>
+                    <field name="atac"/>
+                    <field name="vida"/>
+                    <field name="cost"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_atacant_kanban"
+                                 style="background-color:#990000;
                     width:300px;
                     padding:20px;
                     border-radius:20px;
                     ">
-                <div class="o_kanban_image_fill_left d-none d-md-block">
-                  <img class="oe_kanban_image"
-                       t-att-src="kanban_image('joc.atacant', 'image', record.id.value)"
-                       style="border-radius:20px;"
-                  />
-                </div>
-                <br/>
-                <div class="oe_kanban_details"
-                     style="background-color:#8c8c8c;
+                                <div class="o_kanban_image_fill_left d-none d-md-block">
+                                    <img class="oe_kanban_image"
+                                         t-att-src="kanban_image('joc.atacant', 'image', record.id.value)"
+                                         style="border-radius:20px;"
+                                    />
+                                </div>
+                                <br/>
+                                <div class="oe_kanban_details"
+                                     style="background-color:#8c8c8c;
                             padding:10px;
                             color:white;
                             border-radius:10px;
                 ">
-                  <strong class="o_kanban_details"><field name="name"/> </strong>
-                  <div class="o_kanban_tags_section"/>
-                  <ul>
-                    <li>Atac: <field name="atac"/></li>
-                    <li>Vida: <field name="vida"/></li>
-                    <li>Cost: <field name="cost"/></li>
-                    <li>Nivell: <field name="nivell"/></li>
-                  </ul>
-                </div>
-              </div>
-            </t>
-          </templates>
-        </kanban>
-      </field>
-    </record>
+                                    <strong class="o_kanban_details">
+                                        <field name="name"/>
+                                    </strong>
+                                    <div class="o_kanban_tags_section"/>
+                                    <ul>
+                                        <li>Atac:
+                                            <field name="atac"/>
+                                        </li>
+                                        <li>Vida:
+                                            <field name="vida"/>
+                                        </li>
+                                        <li>Cost:
+                                            <field name="cost"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="joc.form_atacant">
-      <field name="name">Formulari atacant</field>
-      <field name="model">joc.atacant</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="name"/>
-              <field name="image" widget="image" alt="fgy"/>
-              <field name="atac"/>
-              <field name="vida"/>
-              <field name="cost"/>
-              <field name="nivell"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.form_atacant">
+            <field name="name">Formulari atacant</field>
+            <field name="model">joc.atacant</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="image" widget="image" alt="fgy"/>
+                            <field name="atac"/>
+                            <field name="vida"/>
+                            <field name="cost"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="joc.atacant_action_window">
-      <field name="name">Atacant</field>
-      <field name="res_model">joc.atacant</field>
-      <field name="view_mode">kanban,tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.atacant_action_window">
+            <field name="name">Atacant</field>
+            <field name="res_model">joc.atacant</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
 
-    <!-- actions opening views on models -->
+        <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="joc.action_window">
-      <field name="name">joc</field>
-      <field name="res_model">joc.joc</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.action_window">
+            <field name="name">joc</field>
+            <field name="res_model">joc.joc</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
-  <!-- Vista, formulari i action de defenses -->
+        <!-- Vista, formulari i action de defenses -->
 
-    <record model="ir.ui.view" id="joc.llista_defenses">
-      <field name="name">Llista defenses</field>
-      <field name="model">joc.defenses</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="defensa"/>
-          <field name="cantitat"/>
-          <field name="jugador"/>
-        </tree>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.llista_defenses">
+            <field name="name">Llista defenses</field>
+            <field name="model">joc.defenses</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="defensa"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                </tree>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="joc.form_defenses">
-      <field name="name">Formulari defenses</field>
-      <field name="model">joc.defenses</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="defensa"/>
-              <field name="cantitat"/>
-              <field name="jugador"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.form_defenses">
+            <field name="name">Formulari defenses</field>
+            <field name="model">joc.defenses</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="defensa"/>
+                            <field name="cantitat"/>
+                            <field name="jugador"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="joc.defenses_action_window">
-      <field name="name">defenses</field>
-      <field name="res_model">joc.defenses</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.defenses_action_window">
+            <field name="name">defenses</field>
+            <field name="res_model">joc.defenses</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
-    <!-- Vista, Formulari y action de defensa -->
+        <!-- Vista, Formulari y action de defensa -->
 
-    <record model="ir.ui.view" id="joc.llista_defensa">
-      <field name="name">llista defensa</field>
-      <field name="model">joc.defensa</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name"/>
-          <field name="image" widget="image"/>
-          <field name="vida"/>
-          <field name="cost"/>
-          <field name="nivell"/>
-        </tree>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.llista_defensa">
+            <field name="name">llista defensa</field>
+            <field name="model">joc.defensa</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="image" widget="image"/>
+                    <field name="vida"/>
+                    <field name="cost"/>
+                    <field name="nivell"/>
+                </tree>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="joc.form_defensa">
-      <field name="name">Formulari defensa</field>
-      <field name="model">joc.defensa</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="name"/>
-              <field name="image" widget="image" alt="fgy"/>
-              <field name="vida"/>
-              <field name="cost"/>
-              <field name="nivell"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="joc.form_defensa">
+            <field name="name">Formulari defensa</field>
+            <field name="model">joc.defensa</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="image" widget="image" alt="fgy"/>
+                            <field name="vida"/>
+                            <field name="cost"/>
+                            <field name="nivell"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="joc.defensa_action_window">
-      <field name="name">Defensa</field>
-      <field name="res_model">joc.defensa</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-
-
-    <!-- Vista, Formulari y action de mines -->
-
-    <record model="ir.ui.view" id="joc.llista_mines">
-      <field name="name">Llista mines</field>
-      <field name="model">joc.mines</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="tipus"/>
-          <field name="temps_produccio"/>
-          <field name="cost"/>
-          <field name="materials_produits"/>
-          <field name="jugador"/>
-        </tree>
-      </field>
-    </record>
-
-    <record model="ir.ui.view" id="joc.form_mines">
-      <field name="name">Formulari mines</field>
-      <field name="model">joc.mines</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <group>
-              <field name="tipus"/>
-              <field name="temps_produccio"/>
-              <field name="cost"/>
-              <field name="materials_produits"/>
-              <field name="jugador"/>
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
-
-    <record model="ir.actions.act_window" id="joc.mines_action_window">
-      <field name="name">Mines</field>
-      <field name="res_model">joc.mines</field>
-      <field name="view_mode">tree,form</field>
-    </record>
-
-    <!-- actions opening views on models -->
-
-    <record model="ir.actions.act_window" id="joc.action_window">
-      <field name="name">joc</field>
-      <field name="res_model">joc.joc</field>
-      <field name="view_mode">tree,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="joc.defensa_action_window">
+            <field name="name">Defensa</field>
+            <field name="res_model">joc.defensa</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
 
+        <!-- Vista, Formulari y action de mines -->
 
-    <!-- Top menu item -->
+        <record model="ir.ui.view" id="joc.llista_mines">
+            <field name="name">Llista mines</field>
+            <field name="model">joc.mines</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="tipus"/>
+                    <field name="temps_produccio"/>
+                    <field name="cost"/>
+                    <field name="materials_produits"/>
+                    <field name="jugador"/>
+                </tree>
+            </field>
+        </record>
 
-    <menuitem name="Lord Of The Rings Game" id="joc.menu_root"/>
+        <record model="ir.ui.view" id="joc.form_mines">
+            <field name="name">Formulari mines</field>
+            <field name="model">joc.mines</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="tipus"/>
+                            <field name="temps_produccio"/>
+                            <field name="cost"/>
+                            <field name="materials_produits"/>
+                            <field name="jugador"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <!-- menu categories -->
+        <record model="ir.actions.act_window" id="joc.mines_action_window">
+            <field name="name">Mines</field>
+            <field name="res_model">joc.mines</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
-    <menuitem name="Admin" id="joc.menu_1" parent="joc.menu_root"/>
+        <!-- actions opening views on models -->
 
-
-    <!-- actions -->
-
-    <menuitem name="Jugadors" id="joc.menu_jugador" parent="joc.menu_1"
-              action="joc.jugador_action_window"/>
-    <menuitem name="Atacants" id="joc.menu_Atacants" parent="joc.menu_1"
-              action="joc.atacants_action_window"/>
-    <menuitem name="Atacant" id="joc.menu_Atacant" parent="joc.menu_1"
-              action="joc.atacant_action_window"/>
-    <menuitem name="Defenses" id="joc.menu_defenses" parent="joc.menu_1"
-              action="joc.defenses_action_window"/>
-    <menuitem name="Defensa" id="joc.menu_defensa" parent="joc.menu_1"
-              action="joc.defensa_action_window"/>
-    <menuitem name="Mines" id="joc.menu_mines" parent="joc.menu_1"
-              action="joc.mines_action_window"/>
+        <record model="ir.actions.act_window" id="joc.action_window">
+            <field name="name">joc</field>
+            <field name="res_model">joc.joc</field>
+            <field name="view_mode">tree,form</field>
+        </record>
 
 
-  </data>
+        <!-- Top menu item -->
+
+        <menuitem name="Lord Of The Rings Game" id="joc.menu_root"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Admin" id="joc.menu_1" parent="joc.menu_root"/>
+
+
+        <!-- actions -->
+
+        <menuitem name="Jugadors" id="joc.menu_jugador" parent="joc.menu_1"
+                  action="joc.jugador_action_window"/>
+        <menuitem name="Atacants" id="joc.menu_Atacants" parent="joc.menu_1"
+                  action="joc.atacants_action_window"/>
+        <menuitem name="Atacant" id="joc.menu_Atacant" parent="joc.menu_1"
+                  action="joc.atacant_action_window"/>
+        <menuitem name="Defenses" id="joc.menu_defenses" parent="joc.menu_1"
+                  action="joc.defenses_action_window"/>
+        <menuitem name="Defensa" id="joc.menu_defensa" parent="joc.menu_1"
+                  action="joc.defensa_action_window"/>
+        <menuitem name="Mines" id="joc.menu_mines" parent="joc.menu_1"
+                  action="joc.mines_action_window"/>
+
+
+    </data>
 </odoo>
