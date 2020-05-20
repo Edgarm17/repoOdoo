@@ -10,23 +10,24 @@ class game(models.Model):
 
 class jugador(models.Model): #Clientes de odoo
     _name = 'joc.jugador'
-    name = fields.Char()
+    name = fields.Char( required=True)
     image = fields.Binary()
 
     data_creacio = fields.Datetime(default=lambda self: fields.Datetime.now())
     atac = fields.Float(string="Atac jugador", compute="get_atac")
-    defensa = fields.Float()
-    gold = fields.Float()
-    ferro = fields.Float()
-    madera = fields.Float()
-    pedra = fields.Float()
-    nivell = fields.Float()
+    defensa = fields.Float(string="Defensa jugador", compute="get_def")
+    gold = fields.Float(default=100, readonly=True)
+    ferro = fields.Float(default=100, readonly=True)
+    madera = fields.Float(default=100, readonly=True)
+    pedra = fields.Float(default=100, readonly=True)
+    nivell = fields.Float(default=1, readonly=True)
     experiencia = fields.Text(string="Experiencia jugador", compute="get_experiencia")
     #CLAUS ALIENES
 
     atacants = fields.One2many('joc.atacants','jugador')
     atacantk = fields.One2many(related='atacants')
     defenses = fields.One2many('joc.defenses','jugador')
+    defensak = fields.One2many(related='defenses')
     mines = fields.One2many('joc.mines','jugador')
     event = fields.Many2many('joc.event','jugador')
 
@@ -37,6 +38,12 @@ class jugador(models.Model): #Clientes de odoo
         for i in self:
             for r in i.atacants:
                 i.atac += (r.atacant.atac * r.cantitat)
+
+    @api.depends('defensa')
+    def get_def(self):
+        for i in self:
+            for r in i.defenses:
+                i.defensa += (r.defensa.vida * r.cantitat)
 
     @api.depends('experiencia')
     def get_experiencia(self):

@@ -7,7 +7,7 @@
             <field name="model">joc.jugador</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="image" widget="image"/>
+                    <field name="image" widget="image" width="100px"/>
                     <field name="name"/>
                     <field name="atac"/>
                     <field name="defensa"/>
@@ -68,6 +68,37 @@
                                         </templates>
                                     </kanban>
                                 </field>
+                            </page>
+                            <page string="Defenses">
+                                <field name="defensak">
+                                    <kanban>
+                                        <field name="cantitat"/>
+                                        <field name="id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_atacantsk_kanban"
+                                                     style="background-color:#00cedc;width:200px;padding:20px;border-radius:20px;">
+                                                    <br/>
+                                                    <div class="oe_kanban_details"
+                                                         style="background-color:#8c8c8c;padding:10px;color:white;border-radius:10px;">
+                                                        <strong class="o_kanban_details">
+                                                            <field name="defensa"/>
+                                                        </strong>
+                                                        <div class="o_kanban_tags_section"/>
+                                                        <ul>
+                                                            <li>Cantitat:
+                                                                <field name="cantitat"/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                            <page string="Mines">
+
                             </page>
                         </notebook>
                     </sheet>
