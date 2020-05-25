@@ -4,11 +4,12 @@
 
         <record model="ir.ui.view" id="joc.llista_jugadors">
             <field name="name">Llista jugadors</field>
-            <field name="model">joc.jugador</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="image" widget="image" width="100px"/>
                     <field name="name"/>
+                    <field name="correu"/>
                     <field name="atac"/>
                     <field name="defensa"/>
                     <field name="nivell"/>
@@ -18,10 +19,27 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="joc.form_partner_jugador">
+            <field name="name">Formulari jugadors inherited</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="atac"/>
+                    <field name="defensa"/>
+                    <field name="nivell"/>
+                    <field name="gold"/>
+                    <field name="ferro"/>
+                    <field name="madera"/>
+                    <field name="pedra"/>
+                </field>
+            </field>
+        </record>
+
 
         <record model="ir.ui.view" id="joc.form_jugador">
             <field name="name">Formulari jugadors</field>
-            <field name="model">joc.jugador</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
@@ -29,6 +47,7 @@
                             <group string="Dades jugador">
                                 <field name="image" widget="image" style="width:50px;"/>
                                 <field name="name"/>
+                                <field name="correu"/>
                                 <field name="atac"/>
                                 <field name="defensa"/>
                                 <field name="nivell"/>
@@ -108,8 +127,22 @@
 
         <record model="ir.actions.act_window" id="joc.jugador_action_window">
             <field name="name">Jugador</field>
-            <field name="res_model">joc.jugador</field>
+            <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.jugador_view_jugador_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.form_jugador"/>
+            <field name="act_window_id" ref="joc.jugador_action_window"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.jugador_view_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="joc.llista_jugadors"/>
+            <field name="act_window_id" ref="joc.jugador_action_window"/>
         </record>
 
 
