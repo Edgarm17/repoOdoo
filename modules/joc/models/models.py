@@ -20,6 +20,7 @@ class jugador(models.Model): #Clientes de odoo
     image = fields.Binary()
     correu = fields.Char(string='Correu')
 
+    es_jugador = fields.Boolean()
     data_creacio = fields.Datetime(default=lambda self: fields.Datetime.now())
     atac = fields.Float(string="Atac jugador", compute="get_atac")
     defensa = fields.Float(string="Defensa jugador", compute="get_def")

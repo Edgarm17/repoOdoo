@@ -25,6 +25,7 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="vat" position="after">
+                    <field name="es_jugador"/>
                     <field name="atac"/>
                     <field name="defensa"/>
                     <field name="nivell"/>
@@ -46,6 +47,7 @@
                         <group>
                             <group string="Dades jugador">
                                 <field name="image" widget="image" style="width:50px;"/>
+                                <field name="es_jugador"/>
                                 <field name="name"/>
                                 <field name="correu"/>
                                 <field name="atac"/>
@@ -129,6 +131,7 @@
             <field name="name">Jugador</field>
             <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_jugador':1,'default_es_jugador':True}</field>
         </record>
 
         <record model="ir.actions.act_window.view" id="joc.jugador_view_jugador_form">
@@ -136,6 +139,19 @@
             <field name="view_mode">form</field>
             <field name="view_id" ref="joc.form_jugador"/>
             <field name="act_window_id" ref="joc.jugador_action_window"/>
+        </record>
+
+        <record model="ir.ui.view" id="joc.jugador_search">
+            <field name="name">Search jugador joc</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="image"/>
+                    <field name="name"/>
+                    <field name="correu"/>
+                    <filter name="jugador" string="Es jugador" domain="[('es_jugador','=',True)]"/>
+                </search>
+            </field>
         </record>
 
         <record model="ir.actions.act_window.view" id="joc.jugador_view_tree">
