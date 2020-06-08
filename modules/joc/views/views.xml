@@ -63,6 +63,7 @@
                         </group>
                         <notebook>
                             <page string="Atacants">
+                                <button name="%(action_wizard_atacants)d" type="action" string="Crear atacants" class="oe_highlight" />
                                 <field name="atacantk">
                                     <kanban>
                                         <field name="cantitat"/>
@@ -173,6 +174,22 @@
                     <field name="cantitat"/>
                     <field name="jugador"/>
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.atacants_search">
+            <field name="name">Search atacants joc</field>
+            <field name="model">joc.atacants</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="atacant"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                    <filter name="atacant" string="Es guerrer" domain="[('atacant.name','=','Guerrer')]"/>
+                    <filter name="atacant" string="Es arquer" domain="[('atacant.name','=','Arquer')]"/>
+                    <filter name="atacant" string="Es llop" domain="[('atacant.name','=','Llop')]"/>
+                    <filter name="atacant" string="Es dragó" domain="[('atacant.name','=','Dragó')]"/>
+                </search>
             </field>
         </record>
 
@@ -314,6 +331,21 @@
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.defenses_search">
+            <field name="name">Search defenses joc</field>
+            <field name="model">joc.defenses</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="defensa"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                    <filter name="defensa" string="Madera" domain="[('defensa.name','=','Muro madera')]"/>
+                    <filter name="defensa" string="Pedra" domain="[('defensa.name','=','Muro pedra')]"/>
+
+                </search>
             </field>
         </record>
 

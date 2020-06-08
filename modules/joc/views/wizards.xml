@@ -1,0 +1,33 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="joc.wizard_form_atacants">
+            <field name="name">Formulari atacants wizard</field>
+            <field name="model">joc.atacants_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="atacant"/>
+                            <field name="cantitat"/>
+                            <field name="or_disponible"/>
+                            <field name="jugador"/>
+                        </group>
+                        <footer>
+                            <button name="create_atacants" type="object" string="Crear" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_atacants">
+            <field name="name">Wizard creacio atacants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.atacants_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_atacants"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

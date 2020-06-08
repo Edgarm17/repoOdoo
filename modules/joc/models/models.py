@@ -28,7 +28,7 @@ class jugador(models.Model): #Clientes de odoo
     ferro = fields.Float(default=100, readonly=True)
     madera = fields.Float(default=100, readonly=True)
     pedra = fields.Float(default=100, readonly=True)
-    nivell = fields.Float(default=1, readonly=True)
+    nivell = fields.Integer(default=1, readonly=True)
     experiencia = fields.Text(string="Experiencia jugador", compute="get_experiencia")
     #CLAUS ALIENES
 
@@ -75,11 +75,11 @@ class jugador(models.Model): #Clientes de odoo
 
 class atacants(models.Model):
     _name = 'joc.atacants'
-    cantitat = fields.Float()
+    cantitat = fields.Integer()
     #CLAUS ALIENES
 
     atacant = fields.Many2one('joc.atacant')
-    jugador = fields.Many2one('res.partner')
+    jugador = fields.Many2one('res.partner',ondelete='cascade')
 
 class atacant(models.Model):
     _name = 'joc.atacant'
@@ -92,12 +92,12 @@ class atacant(models.Model):
 
 class defenses(models.Model):
     _name = 'joc.defenses'
-    cantitat = fields.Float()
+    cantitat = fields.Integer()
 
     #CLAUS ALIENES
 
     defensa = fields.Many2one('joc.defensa')
-    jugador = fields.Many2one('res.partner')
+    jugador = fields.Many2one('res.partner',ondelete='cascade')
 
 class defensa(models.Model):
     _name = 'joc.defensa'
@@ -105,7 +105,7 @@ class defensa(models.Model):
     image = fields.Binary()
     vida = fields.Float()
     cost = fields.Float()
-    nivell = fields.Float()
+    nivell = fields.Integer()
 
 class mines(models.Model):
     _name = 'joc.mines'
@@ -127,3 +127,44 @@ class evento(models.Model):
     #CLAU ALIENA
 
     jugador = fields.Many2many('res.partner')
+
+#WIZARDS
+
+class atacants_wizard(models.TransientModel):
+    _name="joc.atacants_wizard"
+
+    cantitat = fields.Integer()
+    atacant = fields.Many2one('joc.atacant')
+
+    def _jugador_actual(self):
+        return self.env['res.partner'].browse(self._context.get('active_id'))  # El context conté, entre altre coses,
+        # el active_id del model que està obert.
+
+    jugador = fields.Many2one('res.partner', default=_jugador_actual)
+
+    @api.onchange('atacant','cantitat')
+    def _onchange(self):
+        self.or_disponible = self.jugador.gold - self.atacant.cost * self.cantitat
+
+
+
+    or_disponible = fields.Float(string='Or disponible', store=True, readonly=True)
+
+
+
+    @api.model
+    def action_wizard_atacants(self):
+        action = self.env.ref('joc.action_wizard_atacants').read()[0]
+        return action
+
+    @api.multi
+    def create_atacants(self):
+        # _logger.info(self.or_disponible)
+        # if self.or_disponible < 0:
+        #     raise ValidationError('No hi ha suficient or!')
+        # else:
+        self.jugador.gold -= self.atacant.cost * self.cantitat
+        self.env['joc.atacants'].create({'cantitat':self.cantitat,
+                                        'atacant':self.atacant.id,
+                                        'jugador':self.jugador.id})
+        return {}
