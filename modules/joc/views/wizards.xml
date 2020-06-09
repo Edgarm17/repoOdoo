@@ -29,5 +29,52 @@
             <field name="target">new</field>
         </record>
 
+
+        <record model="ir.ui.view" id="joc.wizard_form_defenses">
+            <field name="name">Formulari defenses wizard</field>
+            <field name="model">joc.defenses_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="arrere" type="object"
+                                string="Arrere" class="btn btn-secondary" states="2,3"/>
+                        <button name="avant" type="object"
+                                string="Avant" class="btn oe_highlight" states="1,2"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+
+                        <group states="1,2,3">
+                            <field name="jugador" attrs="{'readonly':[('state', '!=', '0')]}"/>
+                        </group>
+
+                        <group string="Material" states="1,3">
+                            <field name="defensa" attrs="{'readonly':[('state', '!=', '1')]}"/>
+                        </group>
+
+                        <group string="Cantitat" states="2,3">
+                            <field name="cantitat" attrs="{'readonly':[('state', '!=', '2')]}"/>
+                            <field name="material_disponible"/>
+                        </group>
+                        <footer>
+                            <button name="create_defensa" type="object"
+                                string="Confirmar" class="btn oe_highlight" states="3"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_defenses">
+            <field name="name">Wizard creacio defenses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.defenses_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_defenses"/>
+            <field name="target">new</field>
+        </record>
+
+
     </data>
 </odoo>

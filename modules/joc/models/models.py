@@ -25,9 +25,9 @@ class jugador(models.Model): #Clientes de odoo
     atac = fields.Float(string="Atac jugador", compute="get_atac")
     defensa = fields.Float(string="Defensa jugador", compute="get_def")
     gold = fields.Float(default=100, readonly=True)
-    ferro = fields.Float(default=100, readonly=True)
-    madera = fields.Float(default=100, readonly=True)
-    pedra = fields.Float(default=100, readonly=True)
+    ferro = fields.Integer(default=30, readonly=True)
+    madera = fields.Integer(default=100, readonly=True)
+    pedra = fields.Integer(default=60, readonly=True)
     nivell = fields.Integer(default=1, readonly=True)
     experiencia = fields.Text(string="Experiencia jugador", compute="get_experiencia")
     #CLAUS ALIENES
@@ -104,7 +104,7 @@ class defensa(models.Model):
     name = fields.Char()
     image = fields.Binary()
     vida = fields.Float()
-    cost = fields.Float()
+    cost = fields.Integer()
     nivell = fields.Integer()
 
 class mines(models.Model):
@@ -168,3 +168,61 @@ class atacants_wizard(models.TransientModel):
                                         'atacant':self.atacant.id,
                                         'jugador':self.jugador.id})
         return {}
+
+class defenses_wizard(models.TransientModel):
+    _name="joc.defenses_wizard"
+
+    state = fields.Selection([('1','Material'),('2','Cantitat'),('3','Confirmar')], default='1')
+
+    cantitat = fields.Integer()
+    defensa = fields.Many2one('joc.defensa')
+
+    def _jugador_actual(self):
+        return self.env['res.partner'].browse(self._context.get('active_id'))  # El context conté, entre altre coses,
+        # el active_id del model que està obert.
+
+    jugador = fields.Many2one('res.partner', default=_jugador_actual)
+
+    @api.onchange('defensa','cantitat')
+    def _onchange(self):
+
+        if self.defensa.name == "Muro madera":
+            self.material_disponible = self.jugador.madera - (self.defensa.cost * self.cantitat)
+        elif self.defensa.name == "Muro pedra":
+            self.material_disponible = self.jugador.pedra - (self.defensa.cost * self.cantitat)
+        elif self.defensa.name == "Muro ferro":
+            self.material_disponible = self.jugador.ferro - (self.defensa.cost * self.cantitat)
+
+    material_disponible = fields.Integer(string='Material disponible', store=True, readonly=True)
+
+    def avant(self):
+        if self.state == '1':
+            self.state = '2'
+        elif self.state == '2':
+            self.state = '3'
+
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+    def arrere(self):
+        if self.state == '2':
+            self.state = '1'
+        elif self.state == '3':
+            self.state = '2'
+
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+

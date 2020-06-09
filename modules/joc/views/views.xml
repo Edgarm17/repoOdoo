@@ -92,6 +92,7 @@
                                 </field>
                             </page>
                             <page string="Defenses">
+                                <button name="%(action_wizard_defenses)d" type="action" string="Crear defenses" class="oe_highlight" />
                                 <field name="defensak">
                                     <kanban>
                                         <field name="cantitat"/>
