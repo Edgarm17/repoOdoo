@@ -176,6 +176,12 @@ class defenses_wizard(models.TransientModel):
 
     cantitat = fields.Integer()
     defensa = fields.Many2one('joc.defensa')
+    cost_material = fields.Integer(string="Cost per unitat", compute="get_cost", readonly=True)
+
+
+    @api.depends('cost_material')
+    def get_cost(self):
+        self.cost_material = self.defensa.cost
 
     def _jugador_actual(self):
         return self.env['res.partner'].browse(self._context.get('active_id'))  # El context conté, entre altre coses,
@@ -186,20 +192,43 @@ class defenses_wizard(models.TransientModel):
     @api.onchange('defensa','cantitat')
     def _onchange(self):
 
-        if self.defensa.name == "Muro madera":
-            self.material_disponible = self.jugador.madera - (self.defensa.cost * self.cantitat)
-        elif self.defensa.name == "Muro pedra":
-            self.material_disponible = self.jugador.pedra - (self.defensa.cost * self.cantitat)
-        elif self.defensa.name == "Muro ferro":
-            self.material_disponible = self.jugador.ferro - (self.defensa.cost * self.cantitat)
+        self.cost_total = self.defensa.cost * self.cantitat
 
-    material_disponible = fields.Integer(string='Material disponible', store=True, readonly=True)
+
+
+    material_disponible = fields.Integer(string='Material disponible', store=True, readonly=True, compute="get_material_jugador")
+
+    @api.depends('defensa')
+    def get_material_jugador(self):
+        if self.defensa.name == "Muro madera":
+            self.material_disponible = self.jugador.madera
+        elif self.defensa.name == "Muro pedra":
+            self.material_disponible = self.jugador.pedra
+        elif self.defensa.name == "Muro ferro":
+            self.material_disponible = self.jugador.ferro
+
+
+
+    cost_total = fields.Integer(string="Cost total", readonly=True, store=True)
+
+
 
     def avant(self):
+
+
         if self.state == '1':
-            self.state = '2'
+            if self.defensa.name != "Muro madera" and self.defensa.name != "Muro pedra" and self.defensa.name != "Muro ferro":
+                raise ValidationError('Deus elegir un tipus de defensa!')
+            else:
+                self.state = '2'
         elif self.state == '2':
-            self.state = '3'
+            if (self.cantitat * self.cost_material) > self.material_disponible:
+                raise ValidationError('No tens suficient material')
+            elif self.cantitat == 0:
+                raise ValidationError('Deus elegir una cantitat')
+            else:
+                self.cost_total = self.cost_material* self.cantitat
+                self.state = '3'
 
 
         return {
@@ -224,5 +253,19 @@ class defenses_wizard(models.TransientModel):
             'view_mode': 'form',
             'target': 'new',
         }
+
+    @api.multi
+    def create_defensa(self):
+
+        if self.defensa.name == "Muro madera":
+            self.jugador.madera -= self.cost_total
+        elif self.defensa.name == "Muro pedra":
+            self.jugador.pedra -= self.cost_total
+        elif self.defensa.name == "Muro ferro":
+            self.jugador.ferro -= self.cost_total
+        self.env['joc.defenses'].create({'cantitat': self.cantitat,
+                                         'defensa': self.defensa.id,
+                                         'jugador': self.jugador.id})
+        return {}
 
 
