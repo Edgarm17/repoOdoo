@@ -29,6 +29,34 @@
             <field name="target">new</field>
         </record>
 
+        <record model="ir.ui.view" id="joc.wizard_form_mines">
+            <field name="name">Formulari mines wizard</field>
+            <field name="model">joc.mina_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="mina"/>
+                            <field name="temps"/>
+                            <field name="or_disponible"/>
+                            <field name="jugador"/>
+                        </group>
+                        <footer>
+                            <button name="create_mina" type="object" string="Crear" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_mines">
+            <field name="name">Wizard creacio mines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.mina_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_mines"/>
+            <field name="target">new</field>
+        </record>
+
 
         <record model="ir.ui.view" id="joc.wizard_form_defenses">
             <field name="name">Formulari defenses wizard</field>
@@ -77,6 +105,8 @@
             <field name="view_id" ref="joc.wizard_form_defenses"/>
             <field name="target">new</field>
         </record>
+
+
 
 
     </data>

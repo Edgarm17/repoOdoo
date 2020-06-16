@@ -121,7 +121,32 @@
                                 </field>
                             </page>
                             <page string="Mines">
-
+                                <button name="%(action_wizard_mines)d" type="action" string="Crear mines" class="oe_highlight" />
+                                <field name="minesk">
+                                    <kanban>
+                                        <field name="id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_minesk_kanban"
+                                                     style="background-color:#00cedc;width:200px;padding:20px;border-radius:20px;">
+                                                    <br/>
+                                                    <div class="oe_kanban_details"
+                                                         style="background-color:#8c8c8c;padding:10px;color:white;border-radius:10px;">
+                                                        <strong class="o_kanban_details">
+                                                            <field name="mina"/>
+                                                        </strong>
+                                                        <div class="o_kanban_tags_section"/>
+                                                        <ul>
+                                                            <li>Temps producció:
+                                                                <field name="temps"/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
                             </page>
                         </notebook>
                     </sheet>
@@ -404,11 +429,10 @@
             <field name="model">joc.mines</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="tipus"/>
-                    <field name="temps_produccio"/>
-                    <field name="cost"/>
-                    <field name="materials_produits"/>
+                    <field name="mina"/>
                     <field name="jugador"/>
+                    <field name="temps"/>
+
                 </tree>
             </field>
         </record>
@@ -420,14 +444,27 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="tipus"/>
-                            <field name="temps_produccio"/>
-                            <field name="cost"/>
-                            <field name="materials_produits"/>
+                            <field name="mina"/>
                             <field name="jugador"/>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.mines_search">
+            <field name="name">Search mines joc</field>
+            <field name="model">joc.mines</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="mina"/>
+                    <field name="jugador"/>
+                    <field name="temps"/>
+                    <filter name="mina" string="Madera" domain="[('mina.name','=','Recolector de fusta')]"/>
+                    <filter name="mina" string="Pedra" domain="[('mina.name','=','Mina de pedra')]"/>
+                    <filter name="mina" string="Ferro" domain="[('mina.name','=','Mina de ferro')]"/>
+
+                </search>
             </field>
         </record>
 
@@ -436,6 +473,45 @@
             <field name="res_model">joc.mines</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+        <!-- Vista, Formulari y action de mina -->
+
+        <record model="ir.ui.view" id="joc.llista_mina">
+            <field name="name">llista mina</field>
+            <field name="model">joc.mina</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="temps_produccio"/>
+                    <field name="cost"/>
+                    <field name="materials_produits"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.form_mina">
+            <field name="name">Formulari mina</field>
+            <field name="model">joc.mina</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="temps_produccio" />
+                            <field name="cost"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.mina_action_window">
+            <field name="name">Mina</field>
+            <field name="res_model">joc.mina</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
 
         <!-- actions opening views on models -->
 

@@ -37,6 +37,7 @@ class jugador(models.Model): #Clientes de odoo
     defenses = fields.One2many('joc.defenses','jugador')
     defensak = fields.One2many(related='defenses')
     mines = fields.One2many('joc.mines','jugador')
+    minesk = fields.One2many(related='mines')
     evento = fields.Many2many('joc.evento','jugador')
 
     #FUNCIONS
@@ -72,6 +73,18 @@ class jugador(models.Model): #Clientes de odoo
                 raise ValidationError('El correu no es vàlid!')
 
     _sql_constraints = [('correu_uniq','unique(correu)','Ja existeix un jugador amb aquest correu!')]
+
+    #MÈTODES OVERRIDE
+
+    @api.model
+    def create(self,vals_list):
+        res = super(jugador, self).create(vals_list)
+
+        #CODI PER A CREAR UNA MINA DE OR PER DEFECTE AL CREAR EL JUGADOR
+        mina_or_default = self.env['joc.mina'].create({'name': 'Mina or', 'temps_produccio': 60, 'cost': 0.0, 'materials_produits':0})
+        self.env['joc.mines'].create({'mina': mina_or_default.id, 'jugador': jugador, 'temps': 60})
+
+        return res
 
 class atacants(models.Model):
     _name = 'joc.atacants'
@@ -109,14 +122,25 @@ class defensa(models.Model):
 
 class mines(models.Model):
     _name = 'joc.mines'
-    tipus = fields.Selection([('1','Mina or'),('2','Mina pedra'),('3','Mina ferro')])
-    temps_produccio = fields.Float()
-    cost = fields.Float()
-    materials_produits = fields.Float()
 
     #CLAUS ALIENES
+    mina = fields.Many2one('joc.mina')
+    jugador = fields.Many2one('res.partner', ondelete='cascade')
+    temps = fields.Integer(string="Temps de producció")
 
-    jugador = fields.Many2one('res.partner')
+
+
+
+
+class mina(models.Model):
+
+    _name = 'joc.mina'
+    name = fields.Char()
+    temps_produccio = fields.Integer()
+    cost = fields.Float()
+    materials_produits = fields.Integer(default=0)
+
+
 
 class evento(models.Model):
     _name = 'joc.evento'
@@ -160,14 +184,15 @@ class atacants_wizard(models.TransientModel):
     @api.multi
     def create_atacants(self):
         # _logger.info(self.or_disponible)
-        # if self.or_disponible < 0:
-        #     raise ValidationError('No hi ha suficient or!')
-        # else:
-        self.jugador.gold -= self.atacant.cost * self.cantitat
-        self.env['joc.atacants'].create({'cantitat':self.cantitat,
-                                        'atacant':self.atacant.id,
-                                        'jugador':self.jugador.id})
-        return {}
+        if self.cantitat * self.atacant.cost > self.jugador.gold:
+            raise ValidationError('No hi ha suficient or!')
+        else:
+
+            self.jugador.gold -= self.atacant.cost * self.cantitat
+            self.env['joc.atacants'].create({'cantitat':self.cantitat,
+                                            'atacant':self.atacant.id,
+                                            'jugador':self.jugador.id})
+            return {}
 
 class defenses_wizard(models.TransientModel):
     _name="joc.defenses_wizard"
@@ -267,5 +292,53 @@ class defenses_wizard(models.TransientModel):
                                          'defensa': self.defensa.id,
                                          'jugador': self.jugador.id})
         return {}
+
+
+class mina_wizard(models.TransientModel):
+    _name="joc.mina_wizard"
+
+    mina = fields.Many2one('joc.mina')
+
+    def _jugador_actual(self):
+        return self.env['res.partner'].browse(self._context.get('active_id'))  # El context conté, entre altre coses,
+        # el active_id del model que està obert.
+
+    jugador = fields.Many2one('res.partner', default=_jugador_actual, readonly=True)
+
+    @api.onchange('mina')
+    def _onchange(self):
+        self.temps = self.mina.temps_produccio
+
+
+    temps = fields.Integer(readonly=True)
+    or_disponible = fields.Float(string='Or disponible', store=True, readonly=True, related='jugador.gold')
+
+
+
+    @api.model
+    def action_wizard_mines(self):
+        action = self.env.ref('joc.action_wizard_mines').read()[0]
+        return action
+
+    @api.multi
+    def create_mina(self):
+        # _logger.info(self.or_disponible)
+        if self.mina.cost > self.jugador.gold:
+            raise ValidationError('No hi ha suficient or!')
+        else:
+
+            self.jugador.gold -= self.mina.cost
+            self.temps = self.mina.temps_produccio
+            self.env['joc.mines'].create({'mina':self.mina.id, 'jugador':self.jugador.id, 'temps':self.temps})
+            return {}
+
+
+# # VENTES
+#
+# class venta_monedes(models.Model):
+#     _name = 'sale.order'
+#     _inherit = 'sale.order'
+
+
 
 

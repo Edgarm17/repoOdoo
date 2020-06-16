@@ -30,6 +30,7 @@
         'views/wizards.xml',
         'demo/atacants.xml',
         'demo/defenses.xml',
+        'demo/mines.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

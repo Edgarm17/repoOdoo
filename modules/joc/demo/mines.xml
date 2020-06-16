@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="joc.minPedra" model="joc.mina">
+            <field name="name">Mina de Pedra</field>
+            <field name="temps_produccio">30</field>
+            <field name="cost">30</field>
+        </record>
+        <record id="joc.minFerro" model="joc.mina">
+            <field name="name">Mina de Ferro</field>
+            <field name="temps_produccio">50</field>
+            <field name="cost">50</field>
+        </record>
+        <record id="joc.recFusta" model="joc.mina">
+            <field name="name">Recolector de fusta</field>
+            <field name="temps_produccio">15</field>
+            <field name="cost">20</field>
+        </record>
+    </data>
+</odoo>
