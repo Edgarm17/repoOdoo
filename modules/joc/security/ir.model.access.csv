@@ -1,8 +1,11 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_joc_joc,joc.joc,model_joc_joc,,1,1,1,1
-access_joc_jugador,joc.jugador,model_joc_jugador,,1,1,1,1
+access_res_partner,res.partner,model_res_partner,,1,1,1,1
 access_joc_atacants,joc.atacants,model_joc_atacants,,1,1,1,1
 acces_joc_atacant,joc.atacant,model_joc_atacant,,1,1,1,1
 access_joc_defenses,joc.defenses,model_joc_defenses,,1,1,1,1
 acces_joc_defensa,joc.defensa,model_joc_defensa,,1,1,1,1
 acces_joc_mines,joc.mines,model_joc_mines,,1,1,1,1
+acces_joc_mina,joc.mina,model_joc_mina,,1,1,1,1
+acces_sale_order,sale.order,model_sale_order,,1,1,1,1
+acces_joc_producte,joc.producte,model_joc_producte,,1,1,1,1

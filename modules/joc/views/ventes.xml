@@ -1,0 +1,85 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="joc.llista_ventes">
+            <field name="name">Llista ventes</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="jugador"/>
+                    <field name="producte"/>
+                    <field name="monedes"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.ventes_sale_form">
+            <field name="name">Formulari ventes inherited</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="payment_term_id" position="after">
+                    <field name="jugador"/>
+                    <field name="producte"/>
+                    <field name="monedes"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.form_ventes">
+            <field name="name">Formulari venta</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="jugador"/>
+                            <field name="producte"/>
+                            <field name="monedes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.view_ventes_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.form_ventes"/>
+            <field name="act_window_id" ref="joc.sale_action_window"/>
+        </record>
+
+        <record model="ir.ui.view" id="joc.ventes_search">
+            <field name="name">Search ventes joc</field>
+            <field name="model">sale.order</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="jugador"/>
+                    <field name="producte"/>
+                    <field name="monedes"/>
+                    <filter name="producte" string="Es low cost" domain="[('producte.name','=','Pack low cost')]"/>
+                    <filter name="producte" string="Es estàndar" domain="[('producte.name','=','Pack estandar')]"/>
+                    <filter name="producte" string="Es pro" domain="[('producte.name','=','Pack pro')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.ventes_view_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="joc.llista_ventes"/>
+            <field name="act_window_id" ref="joc.sale_action_window"/>
+        </record>
+
+
+
+        <record model="ir.actions.act_window" id="joc.sale_action_window">
+            <field name="name">Ventes</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Ventes" id="joc.menu_ventes" parent="joc.menu_1"
+                  action="joc.sale_action_window"/>
+    </data>
+</odoo>

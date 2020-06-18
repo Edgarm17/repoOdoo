@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="joc.prodLow" model="joc.producte">
+            <field name="name">Pack low cost</field>
+            <field name="preu">2</field>
+            <field name="monedes">100</field>
+        </record>
+        <record id="joc.prodMed" model="joc.producte">
+            <field name="name">Pack estandar</field>
+            <field name="preu">5</field>
+            <field name="monedes">300</field>
+        </record>
+        <record id="joc.prodTop" model="joc.producte">
+            <field name="name">Pack pro</field>
+            <field name="preu">10</field>
+            <field name="monedes">500</field>
+        </record>
+    </data>
+</odoo>

@@ -4,11 +4,12 @@
 
         <record model="ir.ui.view" id="joc.llista_jugadors">
             <field name="name">Llista jugadors</field>
-            <field name="model">joc.jugador</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="image" widget="image"/>
+                    <field name="image" widget="image" width="100px"/>
                     <field name="name"/>
+                    <field name="correu"/>
                     <field name="atac"/>
                     <field name="defensa"/>
                     <field name="nivell"/>
@@ -19,22 +20,47 @@
         </record>
 
 
+        <record model="ir.ui.view" id="joc.form_partner_jugador">
+            <field name="name">Formulari jugadors inherited</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="after">
+                    <field name="es_jugador"/>
+                    <field name="atac"/>
+                    <field name="defensa"/>
+                    <field name="nivell"/>
+                    <field name="cartera"/>
+                    <field name="gold"/>
+                    <field name="ferro"/>
+                    <field name="madera"/>
+                    <field name="pedra"/>
+                </field>
+            </field>
+        </record>
+
+
         <record model="ir.ui.view" id="joc.form_jugador">
             <field name="name">Formulari jugadors</field>
-            <field name="model">joc.jugador</field>
+            <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <form>
                     <sheet>
                         <group>
                             <group string="Dades jugador">
                                 <field name="image" widget="image" style="width:50px;"/>
+                                <field name="es_jugador"/>
                                 <field name="name"/>
+                                <field name="correu"/>
                                 <field name="atac"/>
                                 <field name="defensa"/>
                                 <field name="nivell"/>
+                                <field name="cartera"/>
+
                             </group>
                             <group string="Materials">
                                 <field name="gold"/>
+                                <button name="%(action_wizard_ventes)d" type="action" string="Comprar monedes" class="oe_highlight" />
                                 <field name="ferro"/>
                                 <field name="madera"/>
                                 <field name="pedra"/>
@@ -42,6 +68,7 @@
                         </group>
                         <notebook>
                             <page string="Atacants">
+                                <button name="%(action_wizard_atacants)d" type="action" string="Crear atacants" class="oe_highlight" />
                                 <field name="atacantk">
                                     <kanban>
                                         <field name="cantitat"/>
@@ -69,6 +96,45 @@
                                     </kanban>
                                 </field>
                             </page>
+                            <page string="Defenses">
+                                <button name="%(action_wizard_defenses)d" type="action" string="Crear defenses" class="oe_highlight" />
+                                <field name="defensak">
+                                    <kanban>
+                                        <field name="cantitat"/>
+                                        <field name="id"/>
+                                        <templates>
+                                            <t t-name="kanban-box">
+                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_atacantsk_kanban"
+                                                     style="background-color:#00cedc;width:200px;padding:20px;border-radius:20px;">
+                                                    <br/>
+                                                    <div class="oe_kanban_details"
+                                                         style="background-color:#8c8c8c;padding:10px;color:white;border-radius:10px;">
+                                                        <strong class="o_kanban_details">
+                                                            <field name="defensa"/>
+                                                        </strong>
+                                                        <div class="o_kanban_tags_section"/>
+                                                        <ul>
+                                                            <li>Cantitat:
+                                                                <field name="cantitat"/>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </t>
+                                        </templates>
+                                    </kanban>
+                                </field>
+                            </page>
+                            <page string="Mines">
+                                <button name="%(action_wizard_mines)d" type="action" string="Crear mines" class="oe_highlight" />
+                                <field name="mines">
+                                    <tree>
+                                        <field name="mina"/>
+                                        <field name="temps"/>
+                                    </tree>
+                                </field>
+
+                            </page>
                         </notebook>
                     </sheet>
                 </form>
@@ -77,8 +143,36 @@
 
         <record model="ir.actions.act_window" id="joc.jugador_action_window">
             <field name="name">Jugador</field>
-            <field name="res_model">joc.jugador</field>
+            <field name="res_model">res.partner</field>
             <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_jugador':1,'default_es_jugador':True}</field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.jugador_view_jugador_form">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.form_jugador"/>
+            <field name="act_window_id" ref="joc.jugador_action_window"/>
+        </record>
+
+        <record model="ir.ui.view" id="joc.jugador_search">
+            <field name="name">Search jugador joc</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="image"/>
+                    <field name="name"/>
+                    <field name="correu"/>
+                    <filter name="jugador" string="Es jugador" domain="[('es_jugador','=',True)]"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="joc.jugador_view_tree">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="joc.llista_jugadors"/>
+            <field name="act_window_id" ref="joc.jugador_action_window"/>
         </record>
 
 
@@ -93,6 +187,22 @@
                     <field name="cantitat"/>
                     <field name="jugador"/>
                 </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.atacants_search">
+            <field name="name">Search atacants joc</field>
+            <field name="model">joc.atacants</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="atacant"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                    <filter name="atacant" string="Es guerrer" domain="[('atacant.name','=','Guerrer')]"/>
+                    <filter name="atacant" string="Es arquer" domain="[('atacant.name','=','Arquer')]"/>
+                    <filter name="atacant" string="Es llop" domain="[('atacant.name','=','Llop')]"/>
+                    <filter name="atacant" string="Es dragó" domain="[('atacant.name','=','Dragó')]"/>
+                </search>
             </field>
         </record>
 
@@ -237,6 +347,21 @@
             </field>
         </record>
 
+        <record model="ir.ui.view" id="joc.defenses_search">
+            <field name="name">Search defenses joc</field>
+            <field name="model">joc.defenses</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="defensa"/>
+                    <field name="cantitat"/>
+                    <field name="jugador"/>
+                    <filter name="defensa" string="Madera" domain="[('defensa.name','=','Muro madera')]"/>
+                    <filter name="defensa" string="Pedra" domain="[('defensa.name','=','Muro pedra')]"/>
+
+                </search>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="joc.defenses_action_window">
             <field name="name">defenses</field>
             <field name="res_model">joc.defenses</field>
@@ -291,11 +416,10 @@
             <field name="model">joc.mines</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="tipus"/>
-                    <field name="temps_produccio"/>
-                    <field name="cost"/>
-                    <field name="materials_produits"/>
+                    <field name="mina"/>
                     <field name="jugador"/>
+                    <field name="temps"/>
+
                 </tree>
             </field>
         </record>
@@ -307,14 +431,27 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="tipus"/>
-                            <field name="temps_produccio"/>
-                            <field name="cost"/>
-                            <field name="materials_produits"/>
+                            <field name="mina"/>
                             <field name="jugador"/>
                         </group>
                     </sheet>
                 </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.mines_search">
+            <field name="name">Search mines joc</field>
+            <field name="model">joc.mines</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="mina"/>
+                    <field name="jugador"/>
+                    <field name="temps"/>
+                    <filter name="mina" string="Madera" domain="[('mina.name','=','Recolector de fusta')]"/>
+                    <filter name="mina" string="Pedra" domain="[('mina.name','=','Mina de pedra')]"/>
+                    <filter name="mina" string="Ferro" domain="[('mina.name','=','Mina de ferro')]"/>
+
+                </search>
             </field>
         </record>
 
@@ -323,6 +460,45 @@
             <field name="res_model">joc.mines</field>
             <field name="view_mode">tree,form</field>
         </record>
+
+        <!-- Vista, Formulari y action de mina -->
+
+        <record model="ir.ui.view" id="joc.llista_mina">
+            <field name="name">llista mina</field>
+            <field name="model">joc.mina</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="temps_produccio"/>
+                    <field name="cost"/>
+                    <field name="materials_produits"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.form_mina">
+            <field name="name">Formulari mina</field>
+            <field name="model">joc.mina</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="temps_produccio" />
+                            <field name="cost"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.mina_action_window">
+            <field name="name">Mina</field>
+            <field name="res_model">joc.mina</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
 
         <!-- actions opening views on models -->
 

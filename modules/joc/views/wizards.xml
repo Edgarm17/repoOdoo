@@ -1,0 +1,142 @@
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="joc.wizard_form_atacants">
+            <field name="name">Formulari atacants wizard</field>
+            <field name="model">joc.atacants_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="atacant"/>
+                            <field name="cantitat"/>
+                            <field name="or_disponible"/>
+                            <field name="jugador"/>
+                        </group>
+                        <footer>
+                            <button name="create_atacants" type="object" string="Crear" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_atacants">
+            <field name="name">Wizard creacio atacants</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.atacants_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_atacants"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.wizard_form_mines">
+            <field name="name">Formulari mines wizard</field>
+            <field name="model">joc.mina_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="mina"/>
+                            <field name="temps"/>
+                            <field name="or_disponible"/>
+                            <field name="jugador"/>
+                        </group>
+                        <footer>
+                            <button name="create_mina" type="object" string="Crear" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_mines">
+            <field name="name">Wizard creacio mines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.mina_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_mines"/>
+            <field name="target">new</field>
+        </record>
+
+
+        <record model="ir.ui.view" id="joc.wizard_form_defenses">
+            <field name="name">Formulari defenses wizard</field>
+            <field name="model">joc.defenses_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="arrere" type="object"
+                                string="Arrere" class="btn btn-secondary" states="2,3"/>
+                        <button name="avant" type="object"
+                                string="Avant" class="btn oe_highlight" states="1,2"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+
+                        <group states="1,2,3">
+                            <field name="jugador" attrs="{'readonly':[('state', '!=', '0')]}"/>
+                        </group>
+
+                        <group string="Material" states="1,2,3">
+                            <field name="defensa" attrs="{'readonly':[('state', '!=', '1')]}"/>
+
+                        </group>
+
+                        <group string="Cantitat" states="2,3">
+                            <field name="cantitat" attrs="{'readonly':[('state', '!=', '2')]}"/>
+                            <field name="cost_material" />
+                            <field name="material_disponible"/>
+                            <field name="cost_total"/>
+                        </group>
+                        <footer>
+                            <button name="create_defensa" type="object"
+                                string="Confirmar" class="btn oe_highlight" states="3"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_defenses">
+            <field name="name">Wizard creacio defenses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.defenses_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_defenses"/>
+            <field name="target">new</field>
+        </record>
+
+        <record model="ir.ui.view" id="joc.wizard_form_ventes">
+            <field name="name">Formulari ventes wizard</field>
+            <field name="model">joc.ventes_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                        <group>
+                            <field name="jugador"/>
+                            <field name="producte"/>
+                            <field name="monedes"/>
+                            <field name="dines_disponibles" />
+                            
+                        </group>
+                        <footer>
+                            <button name="create_venta" type="object" string="Crear" class="oe_highlight"/>
+                            <button special="cancel" string="Cancel"/>
+                        </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="joc.action_wizard_ventes">
+            <field name="name">Wizard creacio ventes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">joc.ventes_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="joc.wizard_form_ventes"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+    </data>
+</odoo>
