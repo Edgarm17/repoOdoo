@@ -30,9 +30,6 @@ class jugador(models.Model): #Clientes de odoo
     pedra = fields.Integer(default=60, readonly=True)
     nivell = fields.Integer(default=1, readonly=True)
     experiencia = fields.Text(string="Experiencia jugador", compute="get_experiencia")
-
-    cartera = fields.Float(default=50.0, readonly=True)
-
     #CLAUS ALIENES
 
     atacants = fields.One2many('joc.atacants','jugador')
@@ -124,24 +121,24 @@ class jugador(models.Model): #Clientes de odoo
     #
     #     return res
 
-class producte(models.Model):
-    _name = 'joc.producte'
-    name = fields.Char()
-    preu = fields.Float()
-    monedes = fields.Integer()
-
-class venta_monedes(models.Model):
-    _name = 'sale.order'
-    _inherit = 'sale.order'
-
-    jugador = fields.Many2one('res.partner')
-    producte = fields.Many2one('joc.producte')
-    monedes = fields.Integer(readonly=True, compute="get_monedes")
-
-    @api.depends('monedes')
-    def get_monedes(self):
-        self.monedes = self.producte.monedes
-
+# class venta_monedes(models.Model):
+#     _name = 'sale.order'
+#     _inherit = 'sale.order'
+#
+#     name = fields.Selection([('1','Pack low'),('2','Pack medium'),('3','Pack pro')])
+#     start = fields.Datetime(default=lambda self: fields.Datetime.now())
+#     end = fields.Datetime(compute='_get_end')
+#
+#     finished = fields.Boolean()
+#
+#     @api.depends('start')
+#     def _get_end(self):
+#         for s in self:
+#             start = fields.Datetime.from_string(self.start)
+#             start = start + timedelta(days=30)
+#             s.end = fields.Datetime.to_string(start)
+#             if (s.end < fields.Datetime.now()):
+#                 s.write({'finished': True})
 
 class atacants(models.Model):
     _name = 'joc.atacants'
@@ -389,42 +386,12 @@ class mina_wizard(models.TransientModel):
             self.env['joc.mines'].create({'mina':self.mina.id, 'jugador':self.jugador.id, 'temps':self.temps})
             return {}
 
-class ventes_wizard(models.TransientModel):
-    _name="joc.ventes_wizard"
 
-    def _jugador_actual(self):
-        return self.env['res.partner'].browse(self._context.get('active_id'))  # El context conté, entre altre coses,
-        # el active_id del model que està obert.
-
-    jugador = fields.Many2one('res.partner', default=_jugador_actual, readonly=True)
-    producte = fields.Many2one('joc.producte')
-    dines_disponibles = fields.Float(string='Dines jugador:', store=True, readonly=True, related='jugador.cartera')
-
-    @api.onchange('producte')
-    def _onchange(self):
-        self.monedes = self.producte.monedes
-
-    monedes = fields.Integer(readonly=True)
-
-    @api.model
-    def action_wizard_ventes(self):
-        action = self.env.ref('joc.action_wizard_ventes').read()[0]
-        return action
-
-    @api.multi
-    def create_venta(self):
-        
-        if self.producte.preu > self.jugador.cartera:
-            raise ValidationError('No tens suficients diners en la cartera!')
-        else:
-
-            self.jugador.cartera -= self.producte.preu
-            self.jugador.gold += self.producte.monedes
-            self.env['sale.order'].create({'partner_id':self.jugador.id, 'jugador':self.jugador.id, 'producte':self.producte.id})
-           
-            return {}
-
-
+# # VENTES
+#
+# class venta_monedes(models.Model):
+#     _name = 'sale.order'
+#     _inherit = 'sale.order'
 
 
 

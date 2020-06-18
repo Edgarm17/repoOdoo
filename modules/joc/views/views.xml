@@ -30,7 +30,6 @@
                     <field name="atac"/>
                     <field name="defensa"/>
                     <field name="nivell"/>
-                    <field name="cartera"/>
                     <field name="gold"/>
                     <field name="ferro"/>
                     <field name="madera"/>
@@ -55,12 +54,9 @@
                                 <field name="atac"/>
                                 <field name="defensa"/>
                                 <field name="nivell"/>
-                                <field name="cartera"/>
-
                             </group>
                             <group string="Materials">
                                 <field name="gold"/>
-                                <button name="%(action_wizard_ventes)d" type="action" string="Comprar monedes" class="oe_highlight" />
                                 <field name="ferro"/>
                                 <field name="madera"/>
                                 <field name="pedra"/>
