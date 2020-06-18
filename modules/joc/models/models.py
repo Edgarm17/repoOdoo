@@ -74,17 +74,71 @@ class jugador(models.Model): #Clientes de odoo
 
     _sql_constraints = [('correu_uniq','unique(correu)','Ja existeix un jugador amb aquest correu!')]
 
-    #MÈTODES OVERRIDE
-
+    #CRON
     @api.model
-    def create(self,vals_list):
-        res = super(jugador, self).create(vals_list)
+    def update_resources(self):
+        jugadors = self.env['res.partner'].search([('es_jugador', '=', True)])
+        print('Recursos actualitzats')
+        for r in jugadors:
+            r.gold += 1
+            for m in r.mines:
+                print(m.mina.name)
 
-        #CODI PER A CREAR UNA MINA DE OR PER DEFECTE AL CREAR EL JUGADOR
-        mina_or_default = self.env['joc.mina'].create({'name': 'Mina or', 'temps_produccio': 60, 'cost': 0.0, 'materials_produits':0})
-        self.env['joc.mines'].create({'mina': mina_or_default.id, 'jugador': jugador, 'temps': 60})
+                if m.mina.name == "Mina de Pedra":
+                    r.pedra += 1
+                elif m.mina.name == "Mina de Ferro":
+                    r.ferro += 1
+                elif m.mina.name == "Recolector de fusta":
+                    r.madera += 1
 
-        return res
+
+    #MÈTODES
+
+    # @api.model
+    # def create(self,vals_list):
+    #     res = super(jugador, self).create(vals_list)
+    #
+    #     #CODI PER A CREAR UNA MINA DE OR PER DEFECTE AL CREAR EL JUGADOR
+    #     mina_or_default = self.env['joc.mina'].create({'name': 'Mina or', 'temps_produccio': 60, 'cost': 0.0, 'materials_produits':0})
+    #     self.env['joc.mines'].create({'mina': mina_or_default.id, 'jugador': self._context.get('active_id'), 'temps': 60})
+    #
+    #     return res
+
+    # @api.model
+    # def default_get(self,fields):
+    #     res = super(jugador, self).default_get(fields)
+    #     mines = []
+    #     mina_or_default = self.env['joc.mina'].create({'name': 'Mina or', 'temps_produccio': 60, 'cost': 0.0, 'materials_produits': 0})
+    #     mina = (0,0,{
+    #         'mina': mina_or_default.id,
+    #         'temps': 60
+    #     })
+    #
+    #     mines.append(mina)
+    #     res.update({
+    #         'mines': mines
+    #     })
+    #
+    #     return res
+
+# class venta_monedes(models.Model):
+#     _name = 'sale.order'
+#     _inherit = 'sale.order'
+#
+#     name = fields.Selection([('1','Pack low'),('2','Pack medium'),('3','Pack pro')])
+#     start = fields.Datetime(default=lambda self: fields.Datetime.now())
+#     end = fields.Datetime(compute='_get_end')
+#
+#     finished = fields.Boolean()
+#
+#     @api.depends('start')
+#     def _get_end(self):
+#         for s in self:
+#             start = fields.Datetime.from_string(self.start)
+#             start = start + timedelta(days=30)
+#             s.end = fields.Datetime.to_string(start)
+#             if (s.end < fields.Datetime.now()):
+#                 s.write({'finished': True})
 
 class atacants(models.Model):
     _name = 'joc.atacants'

@@ -19,6 +19,7 @@
             </field>
         </record>
 
+
         <record model="ir.ui.view" id="joc.form_partner_jugador">
             <field name="name">Formulari jugadors inherited</field>
             <field name="model">res.partner</field>
@@ -122,31 +123,13 @@
                             </page>
                             <page string="Mines">
                                 <button name="%(action_wizard_mines)d" type="action" string="Crear mines" class="oe_highlight" />
-                                <field name="minesk">
-                                    <kanban>
-                                        <field name="id"/>
-                                        <templates>
-                                            <t t-name="kanban-box">
-                                                <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_joc_minesk_kanban"
-                                                     style="background-color:#00cedc;width:200px;padding:20px;border-radius:20px;">
-                                                    <br/>
-                                                    <div class="oe_kanban_details"
-                                                         style="background-color:#8c8c8c;padding:10px;color:white;border-radius:10px;">
-                                                        <strong class="o_kanban_details">
-                                                            <field name="mina"/>
-                                                        </strong>
-                                                        <div class="o_kanban_tags_section"/>
-                                                        <ul>
-                                                            <li>Temps producció:
-                                                                <field name="temps"/>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </t>
-                                        </templates>
-                                    </kanban>
+                                <field name="mines">
+                                    <tree>
+                                        <field name="mina"/>
+                                        <field name="temps"/>
+                                    </tree>
                                 </field>
+
                             </page>
                         </notebook>
                     </sheet>
