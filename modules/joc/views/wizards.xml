@@ -106,7 +106,6 @@
             <field name="target">new</field>
         </record>
 
-<<<<<<< HEAD
         <record model="ir.ui.view" id="joc.wizard_form_ventes">
             <field name="name">Formulari ventes wizard</field>
             <field name="model">joc.ventes_wizard</field>
@@ -136,8 +135,6 @@
             <field name="target">new</field>
         </record>
 
-=======
->>>>>>> fe7ecc499b39ff3fb525b38cf020b59a0de7feca
 
 
 
